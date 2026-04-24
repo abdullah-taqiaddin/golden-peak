@@ -1,0 +1,118 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+  --brand-ink: #101415;
+  --brand-navy: #0a192f;
+  --brand-panel: #172235;
+  --brand-gold: #e9c349;
+  --brand-gold-soft: #f2d168;
+  --brand-emerald: #4ae183;
+  --brand-muted: #c5c6cd;
+  --brand-text: #e8edf3;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Manrope", "Segoe UI", sans-serif;
+  scroll-behavior: smooth;
+  background:
+    radial-gradient(circle at 10% 15%, rgba(233, 195, 73, 0.16), transparent 35%),
+    radial-gradient(circle at 90% 10%, rgba(74, 225, 131, 0.12), transparent 30%),
+    linear-gradient(130deg, #070a0e 0%, #101a28 48%, #070a0e 100%);
+  color: var(--brand-text);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+[id] {
+  scroll-margin-top: 96px;
+}
+
+.panel {
+  border: 1px solid rgba(233, 195, 73, 0.26);
+  border-radius: 18px;
+  background: rgba(10, 25, 47, 0.7);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 24px 45px rgba(0, 0, 0, 0.32);
+}
+
+.input {
+  width: 100%;
+  padding: 0.75rem 0.9rem;
+  border-radius: 10px;
+  border: 1px solid rgba(197, 198, 205, 0.36);
+  background: rgba(23, 34, 53, 0.9);
+  color: #f5f8fc;
+}
+
+.input:focus {
+  outline: 2px solid rgba(233, 195, 73, 0.42);
+  border-color: rgba(233, 195, 73, 0.78);
+}
+
+.button-primary {
+  border: 1px solid rgba(74, 225, 131, 0.8);
+  background: linear-gradient(120deg, #4ae183 0%, #8df2b5 100%);
+  color: #003919;
+  font-weight: 700;
+  border-radius: 10px;
+  padding: 0.7rem 1rem;
+  transition: transform 0.18s ease;
+}
+
+.button-primary:hover {
+  transform: translateY(-1px);
+}
+
+.button-ghost {
+  border: 1px solid rgba(197, 198, 205, 0.45);
+  background: rgba(23, 34, 53, 0.78);
+  color: #f4f6fb;
+  border-radius: 10px;
+  padding: 0.7rem 1rem;
+}
+
+.tab-button {
+  border: 1px solid rgba(197, 198, 205, 0.35);
+  background: rgba(23, 34, 53, 0.7);
+  color: #e7ecf3;
+  border-radius: 0.6rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  text-transform: capitalize;
+  transition: all 0.2s ease;
+}
+
+.tab-button:hover {
+  border-color: rgba(233, 195, 73, 0.6);
+  color: #f8d978;
+}
+
+.tab-button-active {
+  border-color: rgba(233, 195, 73, 0.85);
+  background: rgba(233, 195, 73, 0.2);
+  color: #f8d978;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  border-bottom: 1px solid rgba(197, 205, 216, 0.22);
+  padding: 0.72rem;
+  text-align: left;
+}
