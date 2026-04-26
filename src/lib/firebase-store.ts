@@ -195,6 +195,7 @@ async function firestoreRequest<T = unknown>(
   init: RequestInit = {},
   query?: Record<string, string | number | undefined>
 ) {
+  console.log("here")
   const token = await getAccessToken();
   const url = buildFirestoreUrl(path, query);
   const headers = new Headers(init.headers);
