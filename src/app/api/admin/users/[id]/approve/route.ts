@@ -1,11 +1,9 @@
-import bcrypt from "bcryptjs";
-import { UserStatus } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
 import { requireApiAdmin } from "@/lib/api-auth";
 import { generateRandomPassword } from "@/lib/credentials";
+import { approveUser, isFirebaseStoreError } from "@/lib/firebase-store";
 import { sendApprovalEmail } from "@/lib/mailer";
-import { prisma } from "@/lib/prisma";
 
 export async function POST(
   request: NextRequest,
@@ -15,30 +13,30 @@ export async function POST(
   if (error) return error;
   const { id } = await params;
 
-  const user = await prisma.user.findUnique({ where: { id } });
-
-  if (!user || user.role !== "USER") {
-    return NextResponse.json({ error: "المستخدم غير موجود." }, { status: 404 });
-  }
-
-  if (user.status === UserStatus.REJECTED) {
-    return NextResponse.json({ error: "لا يمكن اعتماد مستخدم مرفوض مباشرة." }, { status: 409 });
-  }
-
   const password = generateRandomPassword(8);
-  const passwordHash = await bcrypt.hash(password, 10);
 
-  const updated = await prisma.user.update({
-    where: { id: user.id },
-    data: {
-      status: UserStatus.APPROVED,
-      passwordHash
+  let updated: { id: string; email: string; firstName: string };
+
+  try {
+    updated = await approveUser(id, password);
+  } catch (approveError) {
+    if (isFirebaseStoreError(approveError)) {
+      return NextResponse.json({ error: approveError.message }, { status: approveError.status });
     }
-  });
+
+    return NextResponse.json({ error: "فشل اعتماد المستخدم." }, { status: 503 });
+  }
+
+  if (!updated?.email) {
+    return NextResponse.json(
+      { error: "تعذر قراءة بيانات المستخدم بعد الاعتماد." },
+      { status: 502 }
+    );
+  }
 
   const emailSent = await sendApprovalEmail({
     to: updated.email,
-    firstName: updated.firstName,
+    firstName: updated.firstName || "Trader",
     password
   });
 

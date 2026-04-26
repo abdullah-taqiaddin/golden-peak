@@ -11,6 +11,8 @@ export type SessionPayload = {
   userId: string;
   role: SessionRole;
   email?: string;
+  firstName?: string;
+  experienceLevel?: "BEGINNER" | "INTERMEDIATE" | "ADVANCED";
 };
 
 function getSecret() {

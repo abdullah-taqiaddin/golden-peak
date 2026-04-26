@@ -1,11 +1,18 @@
 import { redirect } from "next/navigation";
-import { UserStatus } from "@prisma/client";
 
 import { DashboardClient } from "@/components/DashboardClient";
 import { getServerSession } from "@/lib/auth";
 import { env } from "@/lib/env";
-import { formatProgressRows } from "@/lib/progress";
-import { prisma } from "@/lib/prisma";
+import { ExperienceLevelValue, EXPERIENCE_LEVELS } from "@/lib/experience-level";
+import { listUserProgress } from "@/lib/firebase-store";
+
+function toExperienceLevel(value: string | undefined): ExperienceLevelValue {
+  if (value && EXPERIENCE_LEVELS.includes(value as ExperienceLevelValue)) {
+    return value as ExperienceLevelValue;
+  }
+
+  return "BEGINNER";
+}
 
 export default async function DashboardPage() {
   const session = await getServerSession();
@@ -14,29 +21,24 @@ export default async function DashboardPage() {
     redirect("/login");
   }
 
-  const user = await prisma.user.findUnique({
-    where: { id: session.userId },
-    include: {
-      progressItems: {
-        orderBy: { entryDate: "asc" },
-        select: {
-          entryDate: true,
-          revenue: true
-        }
-      }
-    }
-  });
+  const firstName = session.firstName ?? "المتداول";
+  const email = session.email ?? "";
+  const experienceLevel = toExperienceLevel(session.experienceLevel);
 
-  if (!user || user.status !== UserStatus.APPROVED) {
+  let progress: Array<{ entryDate: string; revenue: number }> = [];
+
+  try {
+    progress = await listUserProgress(session.userId);
+  } catch {
     redirect("/login");
   }
 
   return (
     <DashboardClient
-      firstName={user.firstName}
-      email={user.email}
-      experienceLevel={user.experienceLevel}
-      initialProgress={formatProgressRows(user.progressItems)}
+      firstName={firstName}
+      email={email}
+      experienceLevel={experienceLevel}
+      initialProgress={progress}
       courseUrl={env.COURSE_IFRAME_URL}
     />
   );

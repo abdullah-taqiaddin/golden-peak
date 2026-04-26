@@ -1,9 +1,11 @@
 import bcrypt from "bcryptjs";
-import { UserStatus } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import { ZodError } from "zod";
 
-import { prisma } from "@/lib/prisma";
+import {
+  getUserByEmail,
+  isFirebaseStoreError
+} from "@/lib/firebase-store";
 import { createSessionToken, setSessionCookie } from "@/lib/session";
 import { userLoginSchema } from "@/lib/validators";
 
@@ -15,27 +17,31 @@ export async function POST(request: NextRequest) {
       password: body.password
     });
 
-    const user = await prisma.user.findFirst({
-      where: {
-        email: payload.email.toLowerCase(),
-        status: UserStatus.APPROVED
-      }
-    });
+    const user = await getUserByEmail(payload.email.toLowerCase());
 
-    if (!user || !user.passwordHash) {
-      return NextResponse.json({ error: "البريد الإلكتروني أو كلمة المرور غير صحيحة." }, { status: 401 });
+    if (!user?.id || !user?.email) {
+      return NextResponse.json({ error: "بيانات الدخول غير صحيحة." }, { status: 401 });
     }
 
-    const isMatch = await bcrypt.compare(payload.password, user.passwordHash);
+    if (user.status !== "APPROVED") {
+      return NextResponse.json({ error: "الحساب غير معتمد بعد." }, { status: 403 });
+    }
 
-    if (!isMatch) {
-      return NextResponse.json({ error: "البريد الإلكتروني أو كلمة المرور غير صحيحة." }, { status: 401 });
+    if (!user.passwordHash) {
+      return NextResponse.json({ error: "الحساب غير مهيأ بكلمة مرور بعد." }, { status: 403 });
+    }
+
+    const passwordMatches = await bcrypt.compare(payload.password, user.passwordHash);
+    if (!passwordMatches) {
+      return NextResponse.json({ error: "بيانات الدخول غير صحيحة." }, { status: 401 });
     }
 
     const token = await createSessionToken({
       userId: user.id,
       role: "USER",
-      email: user.email
+      email: user.email,
+      firstName: user.firstName,
+      experienceLevel: user.experienceLevel
     });
 
     const response = NextResponse.json({ message: "تم تسجيل الدخول بنجاح." });
@@ -45,6 +51,10 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     if (error instanceof ZodError) {
       return NextResponse.json({ error: "بيانات تسجيل الدخول غير صالحة." }, { status: 400 });
+    }
+
+    if (isFirebaseStoreError(error)) {
+      return NextResponse.json({ error: error.message }, { status: error.status });
     }
 
     console.error("فشل تسجيل دخول المستخدم.", error);

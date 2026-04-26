@@ -1,8 +1,7 @@
-import { UserStatus } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
 import { requireApiAdmin } from "@/lib/api-auth";
-import { prisma } from "@/lib/prisma";
+import { isFirebaseStoreError, rejectUser } from "@/lib/firebase-store";
 
 export async function POST(
   request: NextRequest,
@@ -12,18 +11,14 @@ export async function POST(
   if (error) return error;
   const { id } = await params;
 
-  const user = await prisma.user.findUnique({ where: { id } });
-
-  if (!user || user.role !== "USER") {
-    return NextResponse.json({ error: "المستخدم غير موجود." }, { status: 404 });
-  }
-
-  await prisma.user.update({
-    where: { id: user.id },
-    data: {
-      status: UserStatus.REJECTED
+  try {
+    await rejectUser(id);
+    return NextResponse.json({ message: "تم رفض المستخدم." }, { status: 200 });
+  } catch (rejectError) {
+    if (isFirebaseStoreError(rejectError)) {
+      return NextResponse.json({ error: rejectError.message }, { status: rejectError.status });
     }
-  });
 
-  return NextResponse.json({ message: "تم رفض المستخدم." });
+    return NextResponse.json({ error: "فشل رفض المستخدم." }, { status: 503 });
+  }
 }

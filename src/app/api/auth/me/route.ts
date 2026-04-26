@@ -13,7 +13,9 @@ export async function GET(request: NextRequest) {
     authenticated: true,
     user: {
       role: session.role,
-      email: session.email
+      email: session.email,
+      firstName: session.firstName,
+      experienceLevel: session.experienceLevel
     }
   });
 }
