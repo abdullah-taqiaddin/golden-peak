@@ -3,10 +3,19 @@ import { NextRequest, NextResponse } from "next/server";
 import { ZodError } from "zod";
 
 import { prisma } from "@/lib/prisma";
+import { getApiSession } from "@/lib/auth";
 import { registerSchema } from "@/lib/validators";
 
 export async function POST(request: NextRequest) {
   try {
+    const session = await getApiSession(request);
+    if (session?.role === "ADMIN") {
+      return NextResponse.json(
+        { error: "حساب الإدارة لا يمكنه إرسال طلب انضمام." },
+        { status: 403 }
+      );
+    }
+
     const body = await request.json();
     const payload = registerSchema.parse({
       firstName: body.firstName ?? body.first_name ?? body.firstname,

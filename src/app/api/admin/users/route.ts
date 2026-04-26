@@ -30,7 +30,20 @@ export async function GET(request: NextRequest) {
     }
   });
 
+  const [pendingCount, approvedCount, rejectedCount, totalCount] = await Promise.all([
+    prisma.user.count({ where: { role: "USER", status: UserStatus.PENDING } }),
+    prisma.user.count({ where: { role: "USER", status: UserStatus.APPROVED } }),
+    prisma.user.count({ where: { role: "USER", status: UserStatus.REJECTED } }),
+    prisma.user.count({ where: { role: "USER" } })
+  ]);
+
   return NextResponse.json({
+    counts: {
+      pending: pendingCount,
+      approved: approvedCount,
+      rejected: rejectedCount,
+      all: totalCount
+    },
     users: users.map((user) => ({
       id: user.id,
       firstName: user.firstName,

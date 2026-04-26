@@ -53,7 +53,7 @@ export function RegisterForm() {
   }
 
   return (
-    <form className="panel w-[40%] space-y-4 p-5" onSubmit={onSubmit}>
+    <form className="panel w-full max-w-xl space-y-4 p-5" onSubmit={onSubmit}>
       <h1 className="text-xl font-semibold text-brand-amber">التسجيل بانتظار الموافقة</h1>
       <p className="text-sm text-slate-300">
         أدخل بياناتك. ستقوم الإدارة بمراجعة الطلب وتفعيل الحساب.

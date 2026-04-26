@@ -41,7 +41,7 @@ export function AdminLoginForm() {
   }
 
   return (
-    <form className="panel mx-auto max-w-lg space-y-4 p-5" onSubmit={onSubmit}>
+    <form className="panel w-full max-w-xl space-y-4 p-5" onSubmit={onSubmit}>
       <h1 className="text-xl font-semibold text-brand-amber">دخول الإدارة</h1>
       <p className="text-sm text-slate-300">
         دخول مخصص للإدارة لمراجعة التسجيلات والموافقة ومتابعة الأداء.

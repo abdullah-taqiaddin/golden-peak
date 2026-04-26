@@ -15,10 +15,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ar" dir="rtl">
-      <body>
+      <body className="flex min-h-screen flex-col">
         <ScrollToTop />
         <Header />
-        <main className="mt-20 min-h-[calc(100vh-160px)] w-full">{children}</main>
+        <main className="w-full flex-1 pt-20">{children}</main>
         <Footer />
         <AppToaster />
       </body>

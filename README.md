@@ -11,7 +11,8 @@ Production-ready full-stack web app with:
 - Admin visibility into each user's progress chart
 
 ## Stack
-- Next.js 14 (App Router)
+- Next.js 16 (App Router)
+- React 19
 - TypeScript
 - Prisma ORM
 - PostgreSQL
@@ -20,17 +21,25 @@ Production-ready full-stack web app with:
 - TradingView widgets for real-time Gold/Silver charts
 
 ## Quick Start
-1. Copy environment template:
+1. Use Node LTS (`22.x`) and npm `10+`:
+```bash
+nvm use
+```
+2. Copy environment template:
 ```bash
 cp .env.example .env
 ```
-2. Update `.env` values (database, JWT secret, admin credentials, email provider).
-3. Create DB schema:
+3. Update `.env` values (database, JWT secret, admin credentials, email provider).
+4. Install dependencies:
+```bash
+npm install
+```
+5. Create DB schema:
 ```bash
 npm run prisma:generate
 npm run prisma:migrate -- --name init
 ```
-4. Start development:
+6. Start development:
 ```bash
 npm run dev
 ```
@@ -42,18 +51,24 @@ npm start
 ```
 
 ## Amazon SES Integration (Prepared)
-The backend is ready for SES SMTP mode. To enable later:
+The backend supports SES API (preferred) with SMTP fallback.
+To enable SES API:
 1. In `.env`, set `EMAIL_PROVIDER="ses"`.
 2. Set `SES_REGION` (example: `us-east-1`).
-3. Create SES SMTP credentials and set:
-   - `SES_SMTP_USER`
-   - `SES_SMTP_PASS`
-4. Optional: set `SES_SMTP_HOST`; if empty, app uses `email-smtp.<SES_REGION>.amazonaws.com`.
-5. Keep `SMTP_FROM` as a verified SES identity (email or domain).
-6. In AWS SES, complete:
+3. Create IAM credentials with `ses:SendEmail` and set:
+   - `SES_ACCESS_KEY_ID`
+   - `SES_SECRET_ACCESS_KEY`
+   - optional `SES_SESSION_TOKEN`
+4. Keep `SMTP_FROM` as a verified SES identity (email or domain).
+5. In AWS SES, complete:
    - sender/domain verification
    - DKIM + SPF (and recommended DMARC)
    - production access request (out of SES sandbox)
+
+To use SES SMTP instead, set:
+   - `SES_SMTP_USER`
+   - `SES_SMTP_PASS`
+   - optional `SES_SMTP_HOST` (if empty, app uses `email-smtp.<SES_REGION>.amazonaws.com`)
 
 ## Core Routes
 - Public:

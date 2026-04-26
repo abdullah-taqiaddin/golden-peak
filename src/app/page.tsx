@@ -1,90 +1,47 @@
 import Link from "next/link";
-import { Inter } from "next/font/google";
 
 import { LandingLeadForm } from "@/components/LandingLeadForm";
-
-const inter = Inter({ subsets: ["latin"], display: "swap" });
+import { TradingViewWidget } from "@/components/TradingViewWidget";
+import { HeroStats } from "@/components/HeroStats";
+import { getServerSession } from "@/lib/auth";
 
 const featureCards = [
   {
-    title: "دورات تعليمية شاملة",
+    title: "دورة تعليمية شاملة",
     description:
-      "مناهج دراسية مرتبة تأخذك من الصفر حتى الاحتراف، مع التركيز على سيكولوجية التداول والتحليل المتقدم.",
+      "منهج دراسي مرتب يأخذك من الصفر حتى الاحتراف، مع التركيز على سيكولوجية التداول والتحليل المتقدم.",
     image:
       "https://lh3.googleusercontent.com/aida-public/AB6AXuBgH0T2DrSlQbtMnLgoYcyimL1xdc2cM-pfwOAMwy3bLQr7kDv-0KS7JX9oC3S5Rk6J3QeSC4cZccfXw0N43ZprY1xZhB0IJAWmKd1t2xEol1VOD6aPMLSpRbXZ2sd7ryhgh-mJ4f8-O71xp0vCmlw-CKFeDAiJEPhGiHIDM7GEtdc5ooRtYKZU0gRiZwZ-Ism9VngzPSDGXTlFX25oWCV93HVNeEyxOJ6JgwonpHpqwudiTkRhSg0XJAPcVfa9w5BxJLfcvB6TUtH_"
   },
   {
-    title: "خبراء موجهون",
-    description: "جلسات توجيه مباشرة مع متداولين ذوي خبرة في الأسواق العالمية."
+    title: "استشارات توجيهية مباشرة",
+    description:
+      "احجز جلستك المجانية الان، ودعنا نقيم في التداول ونحدد معا اين وصلت في حسابك وما الخطوة القادمة لتطوير ادائك.",
+    image:
+      "https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=1400&q=80"
   },
   {
     title: "توصيات مباشرة",
-    description: "إشارات تداول عالية الدقة يتم تحديثها يومياً بناءً على تحليل فني دقيق."
+    description: "إشارات تداول عالية الدقة يتم تحديثها يومياً بناءً على تحليل فني دقيق.",
+    image:
+      "https://images.unsplash.com/photo-1767424412548-1a1ac7f4b9bc?auto=format&fit=crop&w=1600&q=80"
   },
   {
-    title: "أدوات تداول حصرية",
-    description: "تمتع بالوصول إلى مؤشراتنا الخاصة ولوحات البيانات المخصصة لتحليل السوق لحظة بلحظة.",
+    title: "انتبه !",
+    description:
+      "إدارة راس المال اساس للاستمرار في هذا السوق. ركّز على حجم العقد، نسبة المخاطرة في كل صفقة، وحدد وقف الخسارة مسبقاً قبل أي دخول.",
     image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuCsOFMXWrUjKZTXJJtIJvlEBCu88V47jSqTWSM88YKH3sboTN6V8koY6rrD-FvuGsPGrmo8wRjgXqoGv5tgB3O38XhsqvnKyxWhbPjkm1NFR5Gk722_L95x4RStpNfPzigu1CNNJp83FEAdYB2ATM7es45iCtICurVeHzTJd-q8qDBXHujL2jtqhVz2xk7PdDtEkly1J2p8O2ErjjfW-PNVphmLiVxt1X-vwMxJ6utn59r-CvDLq_EWUoKPOd3iqa01MAdr9NY8qPrN"
+      "https://images.unsplash.com/photo-1772413438851-f6dd22c7ebe1?auto=format&fit=crop&w=1600&q=80"
   }
 ];
 
-const courses = [
-  {
-    level: "مبتدئ",
-    title: "أساسيات الفوركس",
-    description: "تعلم لغة السوق، منصات التداول، وكيفية تنفيذ أول صفقة لك بأمان.",
-    price: "$199",
-    duration: "4 أسابيع",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuAHfxV3Xe-A4KladJg50Os62-jH4pDvsGMLd9fiVM0LHdGZwRLLxlUKpQMmcUb6Xi_QhpGthe9yiPxIsK6aWdsdsSvaBQnzO6ZK2oL7eDty0cCqp4O98VoJTsPy6HxjNSYn2esS9eBN-_SESxJbw6Bb9uc9N78H9oXZTh2XdOgUZRyxUDJkimVCHkPvpyuQPaaGDO1PPWISpsiLx12HANbF0AnckxnNs2Y0smkM__wRz4hVzhpgEgEWuBMKfpgRxnSaseqfHr58qErD"
-  },
-  {
-    level: "متوسط",
-    title: "التحليل الفني الاحترافي",
-    description: "دراسة عميقة للنماذج السعرية، المؤشرات، واستراتيجيات العرض والطلب.",
-    price: "$499",
-    duration: "8 أسابيع",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuC6-1ksHLwf-iwUNjWS5V1S7RplgMKoiobHYNVuvUQDoIis4bN3F5sYLdOzK0NwXpGIswwNaUb3uZIDDOpMmrAQ5cgCG7kSdkE5nmmOPIkFsdcjK6_QaGh2K66vnu0BC_ZVSJhpAyffeWsPa56-wzmsSFC5VdGvMWD30hbWDLI3awpqK095zkFZMQ-tQec39Zcab2XrZrofqp0AGTG0vnnE7bcSMUB5EVL_H3AxC63MuLt-mNJJw3Ed8xTXYUFNrveZv5z14mw1YzFK",
-    featured: true
-  },
-  {
-    level: "متقدم",
-    title: "إتقان التداول المؤسسي",
-    description: "تعلم كيف تتداول مثل البنوك وصناديق التحوط باستخدام تدفق السيولة.",
-    price: "$999",
-    duration: "12 أسبوعاً",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuDsY-sIo_raSzhdEzQzajIDjffhtWwbFzxWJ1V4Z9Q1dQAkWJ6QO2RLkBjS3AqmEphYFQK8n1mDN3butNeYt5zITADNE2aAe8BB8uhMt1FkIoFML02SO43vQugFjrkV9o0V7xUQxLEgpDo6GIYEPW_sodApslOH2kexVqRv3jLEWduC_e17uUY-O-ixNHPHm0dHaDY-R0wqCAsyLLWhl_3tHMNpV5Lm-Tgr8omD4RotnjPHOH12x9IxS0oQK3JO-N7Ng0BiCawcDnSV"
-  }
-];
+export default async function LandingPage() {
+  const session = await getServerSession();
+  const isAdmin = session?.role === "ADMIN";
 
-const testimonials = [
-  {
-    quote:
-      '"بفضل الدورة المتقدمة، تمكنت من فهم حركة السوق بوضوح لم أعهده من قبل. الآن أتداول بحساب ممول بنجاح."',
-    name: "أحمد م.",
-    role: "متداول ممول"
-  },
-  {
-    quote:
-      '"إشارات التداول كانت نقطة التحول بالنسبة لي. الدقة مذهلة والتحليل المرفق يساعدني على التعلم أثناء التداول."',
-    name: "سارة ع.",
-    role: "مستثمرة مستقلة"
-  },
-  {
-    quote:
-      '"أفضل استثمار قمت به هو الانضمام لهذه الأكاديمية. الدعم الفني والمتابعة المستمرة لا مثيل لهما."',
-    name: "خالد و.",
-    role: "متداول بدوام كامل"
-  }
-];
-
-export default function LandingPage() {
   return (
     <div
-      className={`relative w-full overflow-x-hidden bg-[#101415] text-[#e0e3e5] ${inter.className}`}
+      className="relative w-full overflow-x-hidden bg-[#101415] text-[#e0e3e5]"
     >
       <section className="relative flex min-h-screen items-center" dir="rtl">
         <div className="absolute inset-0 z-0">
@@ -109,28 +66,24 @@ export default function LandingPage() {
               المتقدم وإدارة المخاطر الصارمة لتحقيق الاستقلال المالي.
             </p>
             <div className="flex flex-wrap gap-4 pt-2">
-              <Link
-                href="/register"
-                className="rounded-lg bg-[#4ae183] px-8 py-4 text-sm font-bold text-[#003919] transition-all hover:shadow-[0_0_20px_rgba(74,225,131,0.4)] active:scale-95"
-              >
-                انضم إلينا الآن
-              </Link>
+              {isAdmin ? (
+                <Link
+                  href="/staff-portal"
+                  className="rounded-lg border border-[#e9c349]/45 bg-[#e9c349]/10 px-8 py-4 text-sm font-bold text-[#f6db73] transition-all hover:shadow-[0_0_20px_rgba(233,195,73,0.22)] active:scale-95"
+                >
+                  الدخول إلى لوحة الإدارة
+                </Link>
+              ) : (
+                <Link
+                  href="/register"
+                  className="rounded-lg bg-[#4ae183] px-8 py-4 text-sm font-bold text-[#003919] transition-all hover:shadow-[0_0_20px_rgba(74,225,131,0.4)] active:scale-95"
+                >
+                  انضم إلينا الآن
+                </Link>
+              )}
 
             </div>
-            <div className="flex items-center gap-8 border-t border-white/10 pt-8">
-              <div>
-                <div className="text-2xl font-bold text-white">+15k</div>
-                <div className="text-xs text-[#c5c6cd]">طالب متخرج</div>
-              </div>
-              <div>
-                <div className="text-2xl font-bold text-white">92%</div>
-                <div className="text-xs text-[#c5c6cd]">نسبة الرضا</div>
-              </div>
-              <div>
-                <div className="text-2xl font-bold text-white">+10</div>
-                <div className="text-xs text-[#c5c6cd]">سنوات خبرة</div>
-              </div>
-            </div>
+            <HeroStats />
           </div>
         </div>
       </section>
@@ -158,25 +111,39 @@ export default function LandingPage() {
               />
             </article>
 
-            <article className="rounded-xl border border-white/10 bg-[#0A192F]/70 p-8 text-center md:col-span-4">
-              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full border border-[#e9c349]/30 bg-[#e9c349]/10 text-2xl">
-                🧠
+            <article className="group relative overflow-hidden rounded-xl border border-white/10 bg-[#0A192F]/40 p-8 md:col-span-4">
+              <div className="absolute inset-0 z-0">
+                <img
+                  alt={featureCards[1].title}
+                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  src={featureCards[1].image}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#07101f]/90 via-[#07101f]/45 to-[#07101f]/20" />
               </div>
-              <h3 className="mb-2 text-xl font-semibold text-white">{featureCards[1].title}</h3>
-              <p className="text-sm text-[#c5c6cd]">{featureCards[1].description}</p>
+              <div className="relative z-10 flex min-h-[280px] flex-col justify-end space-y-3">
+                <h3 className="text-xl font-semibold text-white">{featureCards[1].title}</h3>
+                <p className="text-sm leading-7 text-[#c5c6cd]">{featureCards[1].description}</p>
+              </div>
             </article>
 
-            <article className="rounded-xl border border-white/10 bg-[#0A192F]/70 p-8 text-center md:col-span-4">
-              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full border border-[#4ae183]/30 bg-[#4ae183]/10 text-2xl">
-                📈
+            <article className="group relative overflow-hidden rounded-xl border border-white/10 bg-[#0A192F]/40 p-8 md:col-span-4">
+              <div className="absolute inset-0 z-0">
+                <img
+                  alt={featureCards[2].title}
+                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  src={featureCards[2].image}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#07101f]/90 via-[#07101f]/50 to-[#07101f]/20" />
               </div>
-              <h3 className="mb-2 text-xl font-semibold text-white">{featureCards[2].title}</h3>
-              <p className="text-sm text-[#c5c6cd]">{featureCards[2].description}</p>
+              <div className="relative z-10 flex min-h-[280px] flex-col justify-end space-y-3">
+                <h3 className="text-xl font-semibold text-white">{featureCards[2].title}</h3>
+                <p className="text-sm leading-7 text-[#c5c6cd]">{featureCards[2].description}</p>
+              </div>
             </article>
 
             <article className="group relative overflow-hidden rounded-xl border border-white/10 bg-[#0A192F]/70 p-8 backdrop-blur-xl md:col-span-8">
               <div className="relative z-10 mt-36">
-                <h3 className="mb-2 text-2xl font-bold text-white">{featureCards[3].title}</h3>
+                <h3 className="mb-2 text-6xl font-bold text-red-500">{featureCards[3].title}</h3>
                 <p className="max-w-lg text-[#c5c6cd]">{featureCards[3].description}</p>
               </div>
               <div className="absolute inset-0 bg-gradient-to-t from-black/85 to-transparent" />
@@ -192,57 +159,34 @@ export default function LandingPage() {
 
       <section className="bg-[#191c1e] py-20" dir="rtl" id="analysis">
         <div className="mx-auto max-w-[1280px] px-8">
-          <div className="mb-12 flex flex-wrap items-end justify-between gap-4">
+          <div className="mb-12">
             <div>
               <h2 className="text-3xl font-bold text-white">مساراتنا التعليمية</h2>
-              <p className="mt-2 text-[#c5c6cd]">اختر المستوى الذي يناسب طموحاتك المالية.</p>
+              <p className="mt-2 text-[#c5c6cd]">مسار تدريبي متكامل للانطلاق بثقة في سوق التداول.</p>
             </div>
-            <a className="hidden border-b border-[#e9c349] text-xs text-[#e9c349] md:block" href="#">
-              عرض جميع الدورات
-            </a>
           </div>
 
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-            {courses.map((course) => (
-              <article
-                key={course.title}
-                className={`overflow-hidden rounded-xl border bg-[#1d2022] ${
-                  course.featured
-                    ? "relative border-[#e9c349]/35 shadow-[0_20px_50px_rgba(233,195,73,0.08)]"
-                    : "border-white/10"
-                }`}
-              >
-                {course.featured && (
-                  <span className="absolute left-1/2 top-3 z-10 -translate-x-1/2 rounded-full bg-[#e9c349] px-4 py-1 text-xs font-bold text-[#3c2f00]">
-                    الأكثر طلباً
-                  </span>
-                )}
-                <div className="relative h-48">
-                  <img alt={course.title} className="h-full w-full object-cover" src={course.image} />
-                  <span className="absolute right-4 top-4 rounded bg-[#0A192F]/85 px-3 py-1 text-xs text-white">
-                    {course.level}
-                  </span>
-                </div>
-                <div className="space-y-4 p-8">
-                  <h3 className="text-2xl font-semibold text-white">{course.title}</h3>
-                  <p className="text-sm text-[#c5c6cd]">{course.description}</p>
-                  <div className="flex items-center justify-between border-y border-white/5 py-4">
-                    <div className="text-2xl font-bold text-[#e9c349]">{course.price}</div>
-                    <div className="text-sm text-[#c5c6cd]">{course.duration}</div>
-                  </div>
-                  <button
-                    className={`w-full rounded-lg py-3 text-sm font-bold transition-colors ${
-                      course.featured
-                        ? "bg-[#e9c349] text-[#3c2f00] hover:brightness-110"
-                        : "border border-white/15 text-white hover:bg-white/5"
-                    }`}
-                    type="button"
-                  >
-                    {course.featured ? "اشترك الآن" : "عرض التفاصيل"}
-                  </button>
-                </div>
-              </article>
-            ))}
+          <div className="grid grid-cols-1">
+            <article className="overflow-hidden rounded-xl border border-white/10 bg-[#1d2022] shadow-[0_20px_50px_rgba(0,0,0,0.25)]">
+              <div className="relative h-72 w-full md:h-96">
+                <img
+                  alt="مسار أساسيات التداول والتحليل الفني"
+                  className="h-full w-full object-cover"
+                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuDsY-sIo_raSzhdEzQzajIDjffhtWwbFzxWJ1V4Z9Q1dQAkWJ6QO2RLkBjS3AqmEphYFQK8n1mDN3butNeYt5zITADNE2aAe8BB8uhMt1FkIoFML02SO43vQugFjrkV9o0V7xUQxLEgpDo6GIYEPW_sodApslOH2kexVqRv3jLEWduC_e17uUY-O-ixNHPHm0dHaDY-R0wqCAsyLLWhl_3tHMNpV5Lm-Tgr8omD4RotnjPHOH12x9IxS0oQK3JO-N7Ng0BiCawcDnSV"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/20 to-transparent" />
+              </div>
+              <div className="space-y-4 p-8 md:p-10">
+                <h3 className="text-2xl font-semibold text-white md:text-3xl">
+                  كورس أساسيات التداول + أساسيات التحليل الفني
+                </h3>
+                <p className="text-sm leading-8 text-[#c5c6cd] md:text-base">
+                  تعلّم أساسيات التداول، وما يعنيه سوق الفوركس، وأنواع الأزواج الموجودة، وإدارة
+                  المخاطر الحقيقية، ومناطق العرض والطلب، والدعم والمقاومة، وتحديد الاتجاه إذا كان
+                  صاعدًا أم نازلًا.
+                </p>
+              </div>
+            </article>
           </div>
         </div>
       </section>
@@ -267,7 +211,7 @@ export default function LandingPage() {
                 <div className="h-12 w-12 rounded-full border-2 border-[#101415] bg-slate-600" />
                 <div className="h-12 w-12 rounded-full border-2 border-[#101415] bg-slate-500" />
               </div>
-              <span className="text-sm text-white">انضم إلى أكثر من 5000 طالب نشط حالياً</span>
+              <span className="text-sm text-white">انضم إلى أكثر من 200 طالب نشط حالياً</span>
             </div>
           </div>
           <div className="order-1 md:order-2">
@@ -284,56 +228,64 @@ export default function LandingPage() {
       </section>
 
       <section className="bg-[#0A192F] py-20" dir="rtl" id="signals">
-        <div className="mx-auto max-w-[1280px] px-8">
-          <h2 className="mb-16 text-center text-3xl font-bold text-white">قصص نجاح طلابنا</h2>
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-            {testimonials.map((testimonial, index) => (
-              <article
-                key={testimonial.name}
-                className={`relative rounded-xl border p-8 backdrop-blur-xl ${
-                  index === 1 ? "border-[#e9c349]/30 bg-[#0A192F]/70" : "border-white/10 bg-[#0A192F]/65"
-                }`}
-              >
-                <p className="mb-6 text-[#e0e3e5]">{testimonial.quote}</p>
-                <div className="flex items-center gap-4">
-                  <div className="h-12 w-12 rounded-full bg-slate-500" />
-                  <div>
-                    <div className="font-bold text-white">{testimonial.name}</div>
-                    <div className="text-xs text-[#4ae183]">{testimonial.role}</div>
-                  </div>
-                </div>
-              </article>
-            ))}
+        <div className="mx-auto max-w-[1320px] px-8">
+          <div className="mb-10 text-center">
+            <h2 className="text-3xl font-bold text-white">الرسم البياني المباشر لأسعار الذهب</h2>
+            <p className="mt-3 text-[#c5c6cd]">متابعة لحظية لحركة الذهب (XAU/USD) عبر مزود بيانات موثوق.</p>
           </div>
+            <TradingViewWidget title="الذهب (Gold)" symbol="TVC:GOLD" height={700} />
         </div>
       </section>
 
       <section className="relative overflow-hidden bg-[#101415] py-20" dir="rtl" id="about">
         <div className="mx-auto max-w-[1280px] px-8">
-          <div className="mx-auto grid max-w-4xl grid-cols-1 overflow-hidden rounded-2xl border border-white/10 bg-[#0A192F]/70 backdrop-blur-xl md:grid-cols-2">
+          <div
+            className={`mx-auto max-w-4xl overflow-hidden rounded-2xl border border-white/10 bg-[#0A192F]/70 backdrop-blur-xl ${isAdmin ? "grid grid-cols-1" : "grid grid-cols-1 md:grid-cols-2"}`}
+          >
             <div className="flex flex-col justify-center bg-[#4ae183]/5 p-10">
-              <h2 className="mb-6 text-3xl font-bold text-white">هل أنت جاهز للبدء؟</h2>
-              <p className="mb-8 text-[#c5c6cd]">
-                سجل اهتمامك الآن وسيتواصل معك أحد مستشارينا لتحديد المسار الأنسب لك.
-              </p>
-              <div className="space-y-4 text-sm">
-                <div className="flex items-center gap-3 text-[#c5c6cd]">
-                  <span className="text-[#4ae183]">●</span>
-                  تحليل مجاني لنمط تداولك
-                </div>
-                <div className="flex items-center gap-3 text-[#c5c6cd]">
-                  <span className="text-[#4ae183]">●</span>
-                  تجربة أسبوعية للإشارات الممتازة
-                </div>
-                <div className="flex items-center gap-3 text-[#c5c6cd]">
-                  <span className="text-[#4ae183]">●</span>
-                  خصم 20% على أول دورة تدريبية
-                </div>
+              {isAdmin ? (
+                <>
+                  <h2 className="mb-6 text-3xl font-bold text-white">وضع الإدارة مفعل</h2>
+                  <p className="mb-8 text-[#c5c6cd]">
+                    تم إخفاء نماذج التسجيل والانضمام أثناء تسجيل دخول الإدارة.
+                  </p>
+                  <div className="flex">
+                    <Link
+                      href="/staff-portal"
+                      className="rounded-lg border border-[#e9c349]/45 bg-[#e9c349]/10 px-6 py-3 text-sm font-bold text-[#f6db73] transition-all hover:shadow-[0_0_20px_rgba(233,195,73,0.22)] active:scale-95"
+                    >
+                      فتح لوحة الإدارة
+                    </Link>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <h2 className="mb-6 text-3xl font-bold text-white">هل أنت جاهز للبدء؟</h2>
+                  <p className="mb-8 text-[#c5c6cd]">
+                    سجل اهتمامك الآن وسيتواصل معك أحد مستشارينا لتحديد المسار الأنسب لك.
+                  </p>
+                  <div className="space-y-4 text-sm">
+                    <div className="flex items-center gap-3 text-[#c5c6cd]">
+                      <span className="text-[#4ae183]">●</span>
+                      تحليل مجاني لنمط تداولك
+                    </div>
+                    <div className="flex items-center gap-3 text-[#c5c6cd]">
+                      <span className="text-[#4ae183]">●</span>
+                      استشارة مجانية
+                    </div>
+                    <div className="flex items-center gap-3 text-[#c5c6cd]">
+                      <span className="text-[#4ae183]">●</span>
+                      تجربة أسبوعية
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
+            {!isAdmin && (
+              <div className="p-10">
+                <LandingLeadForm />
               </div>
-            </div>
-            <div className="p-10">
-              <LandingLeadForm />
-            </div>
+            )}
           </div>
         </div>
         <div className="absolute -right-1/2 top-0 h-96 w-96 rounded-full bg-[#e9c349]/10 blur-[120px]" />

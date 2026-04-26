@@ -16,7 +16,7 @@ export default async function StaffPortalPage() {
   }
 
   return (
-    <section className="grid gap-6 lg:grid-cols-[1.05fr_1fr]">
+    <section className="mx-auto grid min-h-[calc(100dvh-14rem)] w-full max-w-6xl items-center gap-4 px-4 py-6 lg:grid-cols-[0.95fr_1fr] ">
       <article className="panel hidden space-y-4 p-6 lg:block">
         <p className="text-xs tracking-[0.18em] text-brand-amber">بوابة الإدارة</p>
         <h1 className="text-3xl font-semibold text-white">مراجعة طلبات التسجيل</h1>

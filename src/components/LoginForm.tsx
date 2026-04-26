@@ -42,7 +42,7 @@ export function LoginForm() {
   }
 
   return (
-    <form className="panel space-y-4 p-5" onSubmit={onSubmit}>
+    <form className="panel w-full max-w-xl space-y-4 p-5" onSubmit={onSubmit}>
       <h1 className="text-xl font-semibold text-brand-amber">دخول المتداول</h1>
       <p className="text-sm text-slate-300">
         سجّل الدخول للوصول إلى لوحة المتابعة، تحديث النتائج، ومواصلة الدورة التدريبية.

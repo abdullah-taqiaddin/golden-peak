@@ -32,6 +32,7 @@ export default async function UsersPage() {
   }
 
   return (
+    <div className="p-6">
     <DashboardClient
       firstName={user.firstName}
       email={user.email}
@@ -39,5 +40,6 @@ export default async function UsersPage() {
       initialProgress={formatProgressRows(user.progressItems)}
       courseUrl={env.COURSE_IFRAME_URL}
     />
+    </div>
   );
 }

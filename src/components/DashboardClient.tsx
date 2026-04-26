@@ -110,7 +110,7 @@ export function DashboardClient({
       {activeTab === "market" && (
         <section className="space-y-4" id="dashboard-panel-market" role="tabpanel" aria-labelledby="dashboard-tab-market">
           <p className="text-slate-300">
-            عرض فوري لحركة الذهب والفضة لدعم تدريبك اليومي.
+            عرض فوري لحركة الذهب لدعم تدريبك اليومي.
           </p>
           <MetalCharts />
         </section>
@@ -118,21 +118,22 @@ export function DashboardClient({
 
       {activeTab === "progress" && (
         <section
-          className="grid gap-4 lg:grid-cols-[1.1fr_1fr]"
+          className="flex flex-col gap-6 space-y-4"
           id="dashboard-panel-progress"
           role="tabpanel"
           aria-labelledby="dashboard-tab-progress"
         >
           <div className="space-y-4">
+            <ProgressChart data={progress} />
+
             <DailyProgressForm
               onUpdated={handleProgressUpdated}
               editingEntry={editingEntry}
               onCancelEdit={() => setEditingEntry(null)}
             />
-            <Ladder progress={progress} />
+            {/* <Ladder progress={progress} /> */}
             <ProgressHistory progress={progress} onEdit={setEditingEntry} />
           </div>
-          <ProgressChart data={progress} />
         </section>
       )}
 
