@@ -72,7 +72,8 @@ function getFirestoreBaseUrl() {
     throw new FirebaseStoreError("FIREBASE_PROJECT_ID is not configured.", 500);
   }
 
-  return `https://firestore.googleapis.com/v1/projects/${env.FIREBASE_PROJECT_ID}/databases/(default)/documents`;
+  const databaseId = env.FIREBASE_DATABASE_ID || "(default)";
+  return `https://firestore.googleapis.com/v1/projects/${env.FIREBASE_PROJECT_ID}/databases/${databaseId}/documents`;
 }
 
 function getServiceAccountConfig() {

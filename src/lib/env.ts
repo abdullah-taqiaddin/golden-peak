@@ -17,6 +17,7 @@ export const env = {
   ADMIN_EMAIL: process.env.ADMIN_EMAIL ?? "admin@goldenpeakacademy.com",
   ADMIN_PASSWORD: process.env.ADMIN_PASSWORD ?? "ChangeMe123!",
   FIREBASE_PROJECT_ID: process.env.FIREBASE_PROJECT_ID,
+  FIREBASE_DATABASE_ID: process.env.FIREBASE_DATABASE_ID ?? "golden-peak",
   FIREBASE_CLIENT_EMAIL: process.env.FIREBASE_CLIENT_EMAIL,
   FIREBASE_PRIVATE_KEY: process.env.FIREBASE_PRIVATE_KEY,
   SUPPORT_EMAIL_API_URL:
