@@ -7,23 +7,28 @@
     "npm": ">=10"
   },
   "scripts": {
+    "build": "next build --webpack",
     "check:node": "node -e \"const major = Number(process.versions.node.split('.')[0]); if (major < 20 || major >= 24) { console.error('Unsupported Node ' + process.version + '. Use Node 22.x (>=20.9 <24).'); process.exit(1); }\"",
     "predev": "npm run check:node",
     "prebuild": "npm run check:node",
     "dev": "next dev --webpack --port 3000",
-    "build": "next build --webpack",
     "start": "next start",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "prisma:generate": "prisma generate",
     "postinstall": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "prisma:studio": "prisma studio",
-    "seed": "tsx prisma/seed.ts"
+    "seed": "tsx prisma/seed.ts",
+    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
+    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "upload": "opennextjs-cloudflare build && opennextjs-cloudflare upload",
+    "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
   },
   "dependencies": {
-    "@prisma/adapter-neon": "^5.18.0",
-  "@neondatabase/serverless": "^0.10.4",
     "@aws-sdk/client-sesv2": "^3.1037.0",
+    "@neondatabase/serverless": "^0.10.4",
+    "@opennextjs/cloudflare": "^1.19.4",
+    "@prisma/adapter-neon": "^5.18.0",
     "@prisma/client": "^5.18.0",
     "bcryptjs": "^2.4.3",
     "firebase-tools": "^15.15.0",
@@ -49,6 +54,7 @@
     "prisma": "^5.18.0",
     "tailwindcss": "^3.4.4",
     "tsx": "^4.16.2",
-    "typescript": "^5.5.2"
+    "typescript": "^5.5.2",
+    "wrangler": "^4.85.0"
   }
 }
