@@ -9,7 +9,7 @@ Production-ready full-stack web app with:
 - Automatic random 8-char password generation on approval
 - Approval email dispatch via SMTP or Amazon SES (SMTP mode)
 - Admin visibility into each user's progress chart
-
+ 
 ## Stack
 - Next.js 16 (App Router)
 - React 19
