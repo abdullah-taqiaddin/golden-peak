@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import Link from "next/link";
 
 import { EXPERIENCE_LEVEL_LABELS, ExperienceLevelValue } from "@/lib/experience-level";
 
@@ -11,6 +12,7 @@ export function RegisterForm() {
   const [experienceLevel, setExperienceLevel] = useState<ExperienceLevelValue>("BEGINNER");
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [inlineMessage, setInlineMessage] = useState<string | null>(null);
   const [inlineError, setInlineError] = useState<string | null>(null);
 
@@ -45,6 +47,7 @@ export function RegisterForm() {
       setLastName("");
       setEmail("");
       setExperienceLevel("BEGINNER");
+      setAcceptedTerms(false);
     } catch {
       setInlineError("حدث خطأ غير متوقع في الشبكة.");
     } finally {
@@ -123,6 +126,27 @@ export function RegisterForm() {
                 </option>
               ))}
             </select>
+          </label>
+
+          <label className="flex items-start gap-2 rounded-md border border-brand-silver/35 bg-brand-navy/50 px-3 py-2 text-sm text-slate-200">
+            <input
+              className="mt-1 h-4 w-4 accent-brand-gold"
+              name="acceptedTerms"
+              type="checkbox"
+              checked={acceptedTerms}
+              onChange={(event) => setAcceptedTerms(event.target.checked)}
+              required
+            />
+            <span>
+              أوافق على{" "}
+              <Link
+                className="font-semibold text-brand-amber hover:text-brand-gold-soft"
+                href="/terms-and-conditions"
+                target="_blank"
+              >
+                الشروط والأحكام
+              </Link>
+            </span>
           </label>
 
           <button className="button-primary w-full" disabled={submitting} type="submit">

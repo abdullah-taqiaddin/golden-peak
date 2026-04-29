@@ -58,14 +58,14 @@ export function DashboardClient({
   }
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-5 m-20">
       <section className="panel flex flex-wrap items-center justify-between gap-4 p-5">
         <div>
           <h1 className="text-2xl font-semibold text-brand-amber">أهلاً بعودتك، {firstName}</h1>
           <p className="text-sm text-slate-300">البريد الإلكتروني: {email}</p>
           <p className="text-sm text-slate-300">
             مستوى الخبرة:{" "}
-            <span className="font-medium text-brand-amber">
+            <span className="font-medium text-brand-amber display:hidden">
               {EXPERIENCE_LEVEL_LABELS[experienceLevel]}
             </span>
           </p>

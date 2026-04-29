@@ -1,14 +1,15 @@
 import Link from "next/link";
 
 import { getServerSession } from "@/lib/auth";
+import { HeaderNav } from "@/components/HeaderNav";
 import { HeaderLogoutButton } from "@/components/HeaderLogoutButton";
 
 const navLinks = [
-  { href: "/#academy", label: "الأكاديمية" },
-  { href: "/#analysis", label: "التحليل" },
-  { href: "/#signals", label: "الإشارات" },
+  { href: "/#academy", label: "لماذا نحن" },
+  { href: "/#analysis", label: "المسار التعليمي" },
+  { href: "/#signals", label: "الذهب المباشر" },
   { href: "/#mentorship", label: "الإرشاد" },
-  { href: "/#about", label: "من نحن" }
+  { href: "/#about", label: "الانضمام" }
 ] as const;
 
 export async function Header() {
@@ -22,19 +23,9 @@ export async function Header() {
       <div className="mx-auto flex h-20 w-full max-w-7xl items-center justify-between px-4 sm:px-8 lg:px-12">
         <div className="flex items-center gap-8">
           <Link href="/" className="text-2xl font-black tracking-tight text-white">
-            Golden Peak
+            GOLDEN PEAK
           </Link>
-          <nav className="hidden gap-6 md:flex">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                className="text-xs font-semibold tracking-wider text-slate-300 transition-colors hover:text-brand-amber"
-                href={link.href}
-              >
-                {link.label}
-              </Link>
-            ))}
-          </nav>
+          <HeaderNav links={navLinks} />
         </div>
 
         {session?.role === "ADMIN" ? (

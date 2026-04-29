@@ -9,9 +9,9 @@ type HeroStat = {
 };
 
 const stats: HeroStat[] = [
-  { label: "طالب نشط", target: 200, suffix: "+" },
+  { label: "طالب نشط", target: 43, suffix: "+" },
   { label: "نسبة الرضا", target: 92, suffix: "%" },
-  { label: "سنوات خبرة", target: 10, suffix: "+" }
+  { label: "سنوات خبرة", target: 6, suffix: "+" }
 ];
 
 function easeOutCubic(progress: number) {

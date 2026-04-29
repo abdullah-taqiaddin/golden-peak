@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import Link from "next/link";
 
 import { EXPERIENCE_LEVEL_LABELS, ExperienceLevelValue } from "@/lib/experience-level";
 
@@ -9,6 +10,7 @@ export function LandingLeadForm() {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [experienceLevel, setExperienceLevel] = useState<ExperienceLevelValue>("BEGINNER");
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -43,6 +45,7 @@ export function LandingLeadForm() {
       setLastName("");
       setEmail("");
       setExperienceLevel("BEGINNER");
+      setAcceptedTerms(false);
     } catch {
       setErrorMessage("تعذر إرسال الطلب حالياً.");
     } finally {
@@ -111,6 +114,26 @@ export function LandingLeadForm() {
           ))}
         </select>
       </div>
+
+      <label className="flex items-start gap-2 rounded-lg border border-white/10 bg-[#191c1e] px-3 py-3 text-sm text-slate-200">
+        <input
+          className="mt-1 h-4 w-4 accent-[#e9c349]"
+          type="checkbox"
+          checked={acceptedTerms}
+          onChange={(event) => setAcceptedTerms(event.target.checked)}
+          required
+        />
+        <span>
+          أوافق على{" "}
+          <Link
+            className="font-semibold text-[#e9c349] hover:text-[#f2d168]"
+            href="/terms-and-conditions"
+            target="_blank"
+          >
+            الشروط والأحكام
+          </Link>
+        </span>
+      </label>
 
       <button
         className="w-full rounded-lg bg-[#4ae183] py-4 text-sm font-bold text-[#003919] transition-all hover:shadow-[0_0_15px_rgba(74,225,131,0.3)] active:scale-95"
