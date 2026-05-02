@@ -4,11 +4,14 @@ import { FormEvent, useState } from "react";
 import Link from "next/link";
 
 import { EXPERIENCE_LEVEL_LABELS, ExperienceLevelValue } from "@/lib/experience-level";
+import { PhoneNumberField } from "@/components/PhoneNumberField";
 
 export function RegisterForm() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
+  const [phoneCountryCode, setPhoneCountryCode] = useState("+962");
+  const [phoneLocalNumber, setPhoneLocalNumber] = useState("");
   const [experienceLevel, setExperienceLevel] = useState<ExperienceLevelValue>("BEGINNER");
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -30,6 +33,7 @@ export function RegisterForm() {
           firstName: firstName.trim(),
           lastName: lastName.trim(),
           email: email.trim(),
+          phoneNumber: `${phoneCountryCode}${phoneLocalNumber}`,
           experienceLevel
         })
       });
@@ -46,6 +50,8 @@ export function RegisterForm() {
       setFirstName("");
       setLastName("");
       setEmail("");
+      setPhoneCountryCode("+962");
+      setPhoneLocalNumber("");
       setExperienceLevel("BEGINNER");
       setAcceptedTerms(false);
     } catch {
@@ -110,6 +116,15 @@ export function RegisterForm() {
               required
             />
           </label>
+
+          <PhoneNumberField
+            countryCode={phoneCountryCode}
+            localNumber={phoneLocalNumber}
+            onCountryCodeChange={setPhoneCountryCode}
+            onLocalNumberChange={setPhoneLocalNumber}
+            selectClassName="input"
+            inputClassName="input"
+          />
 
           <label className="block space-y-1">
             <span className="text-sm text-slate-300">مستوى الخبرة</span>

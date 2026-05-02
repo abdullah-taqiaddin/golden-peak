@@ -4,11 +4,14 @@ import { FormEvent, useState } from "react";
 import Link from "next/link";
 
 import { EXPERIENCE_LEVEL_LABELS, ExperienceLevelValue } from "@/lib/experience-level";
+import { PhoneNumberField } from "@/components/PhoneNumberField";
 
 export function LandingLeadForm() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
+  const [phoneCountryCode, setPhoneCountryCode] = useState("+962");
+  const [phoneLocalNumber, setPhoneLocalNumber] = useState("");
   const [experienceLevel, setExperienceLevel] = useState<ExperienceLevelValue>("BEGINNER");
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -29,6 +32,7 @@ export function LandingLeadForm() {
           firstName: firstName.trim(),
           lastName: lastName.trim(),
           email: email.trim(),
+          phoneNumber: `${phoneCountryCode}${phoneLocalNumber}`,
           experienceLevel
         })
       });
@@ -44,6 +48,8 @@ export function LandingLeadForm() {
       setFirstName("");
       setLastName("");
       setEmail("");
+      setPhoneCountryCode("+962");
+      setPhoneLocalNumber("");
       setExperienceLevel("BEGINNER");
       setAcceptedTerms(false);
     } catch {
@@ -98,6 +104,15 @@ export function LandingLeadForm() {
           required
         />
       </div>
+
+      <PhoneNumberField
+        countryCode={phoneCountryCode}
+        localNumber={phoneLocalNumber}
+        onCountryCodeChange={setPhoneCountryCode}
+        onLocalNumberChange={setPhoneLocalNumber}
+        selectClassName="w-full rounded-lg border border-white/10 bg-[#191c1e] px-4 py-3 text-white outline-none transition-all focus:border-[#e9c349] focus:ring-1 focus:ring-[#e9c349]"
+        inputClassName="w-full rounded-lg border border-white/10 bg-[#191c1e] px-4 py-3 text-white outline-none transition-all focus:border-[#e9c349] focus:ring-1 focus:ring-[#e9c349]"
+      />
 
       <div>
         <label className="mb-2 block text-xs text-[#c5c6cd]">مستوى الخبرة</label>

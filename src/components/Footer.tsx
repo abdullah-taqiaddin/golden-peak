@@ -1,4 +1,10 @@
 import Link from "next/link";
+import type { Route } from "next";
+
+const footerLinks: Array<{ href: Route; label: string }> = [
+  { href: "/academy-message" as Route, label: "رسالة الأكاديمية" },
+  { href: "/terms-and-conditions", label: "الشروط والأحكام" }
+];
 
 export function Footer() {
   return (
@@ -7,17 +13,20 @@ export function Footer() {
         <div className="text-center md:text-right">
           <span className="mb-2 block text-lg font-bold text-white">Golden Peak</span>
           <p className="max-w-sm text-xs text-slate-400">
-            © 2026 Golden Peak Academy. جميع الحقوق محفوظة. التداول ينطوي على مخاطر مالية.
+            © 2026 Golden Peak Academy. التداول ينطوي على مخاطر عالية قد تؤدي الى خسازة رأس المال يرجى الاستعلام قبل البدء.
           </p>
         </div>
 
         <nav className="flex flex-wrap justify-center gap-6">
-          <Link
-            className="text-xs text-slate-300 transition-colors hover:text-brand-emerald"
-            href="/terms-and-conditions"
-          >
-            الشروط والأحكام
-          </Link>
+          {footerLinks.map((link) => (
+            <Link
+              key={link.href}
+              className="text-xs text-slate-300 transition-colors hover:text-brand-emerald"
+              href={link.href}
+            >
+              {link.label}
+            </Link>
+          ))}
         </nav>
       </div>
     </footer>

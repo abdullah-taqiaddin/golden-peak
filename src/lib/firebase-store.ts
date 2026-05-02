@@ -14,6 +14,7 @@ export type StatusFilter = "pending" | "approved" | "rejected" | "all";
 export type UserRecord = {
   id: string;
   email: string;
+  phoneNumber: string;
   firstName: string;
   lastName: string;
   status: UserStatus;
@@ -364,6 +365,7 @@ function mapUserDocument(document: FirestoreDocument): UserRecord {
   return {
     id,
     email: String(raw.email ?? ""),
+    phoneNumber: String(raw.phoneNumber ?? ""),
     firstName: String(raw.firstName ?? ""),
     lastName: String(raw.lastName ?? ""),
     status: normalizeStatus(raw.status),
@@ -391,6 +393,7 @@ function toAdminUserRecord(user: UserRecord): AdminUserRecord {
   return {
     id: user.id,
     email: user.email,
+    phoneNumber: user.phoneNumber,
     firstName: user.firstName,
     lastName: user.lastName,
     status: user.status,
@@ -408,6 +411,7 @@ async function writeUser(user: UserRecord) {
       fields: toFirestoreFields({
         id: user.id,
         email: user.email.toLowerCase(),
+        phoneNumber: user.phoneNumber,
         firstName: user.firstName,
         lastName: user.lastName,
         status: user.status,
@@ -465,23 +469,48 @@ export async function getUserByEmail(email: string) {
   return mapUserDocument(documents[0]);
 }
 
+export async function getUserByPhoneNumber(phoneNumber: string) {
+  const normalizedPhone = phoneNumber.trim();
+  const documents = await runUserQuery({
+    from: [{ collectionId: "users" }],
+    where: {
+      fieldFilter: {
+        field: { fieldPath: "phoneNumber" },
+        op: "EQUAL",
+        value: toFirestoreValue(normalizedPhone)
+      }
+    },
+    limit: 1
+  });
+
+  if (documents.length === 0) return null;
+  return mapUserDocument(documents[0]);
+}
+
 export async function createPendingUser(input: {
   firstName: string;
   lastName: string;
   email: string;
+  phoneNumber: string;
   experienceLevel: ExperienceLevelValue;
 }) {
   const email = input.email.trim().toLowerCase();
+  const phoneNumber = input.phoneNumber.trim();
   const existing = await getUserByEmail(email);
+  const existingPhone = await getUserByPhoneNumber(phoneNumber);
 
   if (existing) {
     throw new FirebaseStoreError("البريد الإلكتروني مسجل مسبقاً.", 409);
+  }
+  if (existingPhone) {
+    throw new FirebaseStoreError("رقم الهاتف مسجل مسبقاً.", 409);
   }
 
   const now = new Date().toISOString();
   const user: UserRecord = {
     id: crypto.randomUUID(),
     email,
+    phoneNumber,
     firstName: input.firstName.trim(),
     lastName: input.lastName.trim(),
     status: "PENDING",

@@ -20,6 +20,7 @@ export async function POST(request: NextRequest) {
       firstName: body.firstName ?? body.first_name ?? body.firstname,
       lastName: body.lastName ?? body.last_name ?? body.lastname,
       email: body.email,
+      phoneNumber: body.phoneNumber ?? body.phone_number ?? body.phone,
       experienceLevel: body.experienceLevel ?? body.experience_level ?? "BEGINNER"
     });
 
@@ -27,6 +28,7 @@ export async function POST(request: NextRequest) {
       firstName: payload.firstName,
       lastName: payload.lastName,
       email: payload.email,
+      phoneNumber: payload.phoneNumber,
       experienceLevel: payload.experienceLevel
     });
 

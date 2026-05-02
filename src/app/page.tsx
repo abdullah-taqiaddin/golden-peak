@@ -50,7 +50,7 @@ export default async function LandingPage() {
           <img
             alt="Trading environment"
             className="h-full w-full object-cover"
-            src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=2200&q=80"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBQEXEsaIJfnOMZdszcMfp_OY6Z7UoEy19luQMViS7eZZCeC70YtMMz5yCVR5P2UrROZXPByJsrQ4euLvK9WHv82_0V4YPMMXd7a6obqQhXRbE61haKi-To54R7DuRCudLbG9jreryvd7rz07au9FlZSr2yLLWxw4tRRSuPUd1LdMbD6r3uvcWg-JhUteUmI921SkMSlRpliD3PEoi4nnsOsgt60-AF1XnJivzU_Jks0B24GEpfLPOgqQdX-KTRRlt-wuB-iuRfuUGo"
           />
         </div>
         <div className="relative z-10 mx-auto w-full max-w-[1280px] px-8 py-16">
@@ -64,7 +64,7 @@ export default async function LandingPage() {
             </h1>
             <p className="max-w-xl text-lg text-[#c5c6cd]">
               تعلم أسرار التداول من الخبراء الحقيقيين. نقدم لك تدريباً شاملاً يعتمد على التحليل الفني
-              المتقدم وإدارة المخاطر الصارمة لتحقيق الاستقلال المالي.
+              المتقدم وإدارة المخاطر الصارمة لتحقيق التقدم في سوف الفوركس.
             </p>
             <div className="flex flex-wrap gap-4 pt-2">
               {isAdmin ? (

@@ -14,6 +14,7 @@ type AdminUser = {
   firstName: string;
   lastName: string;
   email: string;
+  phoneNumber: string;
   status: UserStatus;
   experienceLevel: ExperienceLevelValue;
   createdAt: string;
@@ -196,6 +197,7 @@ export function AdminDashboard() {
                 <tr>
                   <th>الاسم</th>
                   <th>البريد الإلكتروني</th>
+                  <th>رقم الهاتف</th>
                   <th>الحالة</th>
                   <th>الخبرة</th>
                   <th>عدد السجلات</th>
@@ -216,6 +218,7 @@ export function AdminDashboard() {
                           {user.firstName} {user.lastName}
                         </td>
                         <td>{user.email}</td>
+                        <td dir="ltr">{user.phoneNumber}</td>
                         <td>{USER_STATUS_LABELS[user.status]}</td>
                         <td>{EXPERIENCE_LEVEL_LABELS[user.experienceLevel]}</td>
                         <td>{user.progressCount}</td>
@@ -247,7 +250,7 @@ export function AdminDashboard() {
 
                       {user.status === "APPROVED" && isExpanded && (
                         <tr>
-                          <td colSpan={7} className="bg-brand-smoke/35">
+                          <td colSpan={8} className="bg-brand-smoke/35">
                             <div className="space-y-3 p-3">
                               <div className="flex items-center justify-between">
                                 <h3 className="text-sm font-semibold text-brand-amber">

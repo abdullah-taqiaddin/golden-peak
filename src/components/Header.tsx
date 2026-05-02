@@ -7,8 +7,8 @@ import { HeaderLogoutButton } from "@/components/HeaderLogoutButton";
 const navLinks = [
   { href: "/#academy", label: "لماذا نحن" },
   { href: "/#analysis", label: "المسار التعليمي" },
-  { href: "/#signals", label: "الذهب المباشر" },
   { href: "/#mentorship", label: "الإرشاد" },
+  { href: "/#signals", label: "الذهب المباشر" },
   { href: "/#about", label: "الانضمام" }
 ] as const;
 

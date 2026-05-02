@@ -6,6 +6,7 @@ export const registerSchema = z.object({
   firstName: z.string().trim().min(1).max(50),
   lastName: z.string().trim().min(1).max(50),
   email: z.string().trim().email(),
+  phoneNumber: z.string().trim().regex(/^\+[1-9]\d{7,14}$/),
   experienceLevel: z.enum(EXPERIENCE_LEVELS)
 });
 
