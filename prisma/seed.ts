@@ -18,6 +18,7 @@ async function main() {
     update: {
       firstName: "Demo",
       lastName: "Trader",
+      phoneNumber: "+962790000000",
       username: "demotrader",
       passwordHash,
       status: UserStatus.APPROVED,
@@ -27,6 +28,7 @@ async function main() {
       email: "demo@goldenpeakacademy.com",
       firstName: "Demo",
       lastName: "Trader",
+      phoneNumber: "+962790000000",
       username: "demotrader",
       passwordHash,
       status: UserStatus.APPROVED,

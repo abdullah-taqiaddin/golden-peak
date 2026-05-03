@@ -10,7 +10,7 @@
     "build": "next build --webpack",
     "check:node": "node -e \"const major = Number(process.versions.node.split('.')[0]); if (major < 20 || major >= 24) { console.error('Unsupported Node ' + process.version + '. Use Node 22.x (>=20.9 <24).'); process.exit(1); }\"",
     "predev": "npm run check:node",
-    "prebuild": "npm run check:node",
+    "prebuild": "npm run check:node && npm run prisma:generate",
     "dev": "next dev --webpack --port 3000",
     "start": "next start",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
