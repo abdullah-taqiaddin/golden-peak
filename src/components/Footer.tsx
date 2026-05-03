@@ -13,7 +13,7 @@ export function Footer() {
         <div className="text-center md:text-right">
           <span className="mb-2 block text-lg font-bold text-white">Golden Peak</span>
           <p className="max-w-sm text-xs text-slate-400">
-            © 2026 Golden Peak Academy. التداول ينطوي على مخاطر عالية قد تؤدي الى خسازة رأس المال يرجى الاستعلام قبل البدء.
+            © 2026 Golden Peak Academy. التداول ينطوي على مخاطر عالية قد تؤدي الى خسارة رأس المال يرجى الاستعلام قبل البدء.
           </p>
         </div>
 
