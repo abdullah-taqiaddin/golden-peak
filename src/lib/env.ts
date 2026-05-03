@@ -20,6 +20,8 @@ export const env = {
   FIREBASE_DATABASE_ID: process.env.FIREBASE_DATABASE_ID ?? "golden-peak",
   FIREBASE_CLIENT_EMAIL: process.env.FIREBASE_CLIENT_EMAIL,
   FIREBASE_PRIVATE_KEY: process.env.FIREBASE_PRIVATE_KEY,
+  FIREBASE_API_BASE_URL: process.env.FIREBASE_API_BASE_URL,
+  FIREBASE_API_KEY: process.env.FIREBASE_API_KEY,
   SUPPORT_EMAIL_API_URL:
     process.env.SUPPORT_EMAIL_API_URL ??
     "https://us-central1-golden-peak-8bb04.cloudfunctions.net/sendSupportEmailApi",
