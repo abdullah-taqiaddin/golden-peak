@@ -1,4 +1,5 @@
 export default function AcademyMessagePage() {
+  //text test
   return (
     <section dir="rtl" className="mx-auto mb-10 mt-10 max-w-4xl space-y-6">
       <div className="panel space-y-4 p-6">
@@ -7,7 +8,7 @@ export default function AcademyMessagePage() {
           للتداول انطلاقًا من رؤيتنا في بناء متداول واعي ومحترف، نؤمن أن النجاح في الأسواق يبدأ بالالتزام والانضباط.
         </p>
       </div>
-
+    
       <div className="panel space-y-6 p-6 text-sm text-slate-200">
         <section className="space-y-3">
           <h2 className="text-lg font-semibold text-white">أولًا: حقوق المتداول</h2>
